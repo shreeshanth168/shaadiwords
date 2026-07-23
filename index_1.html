@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShaadiWords — AI Wedding Invitation & Caption Generator</title>
+<meta name="description" content="Generate beautiful wedding invitation wording, WhatsApp messages, and Instagram captions in seconds — free AI tool for Indian weddings.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FBF6ED;
+    --ivory-deep:#F3EAD8;
+    --maroon:#6B1E2B;
+    --maroon-deep:#4A1420;
+    --gold:#D9A441;
+    --gold-soft:#E9C77B;
+    --mehendi:#4B6043;
+    --sindoor:#C1272D;
+    --ink:#2A1B1E;
+    --line:rgba(107,30,43,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ivory);
+    background-image:
+      radial-gradient(circle at 10% 10%, rgba(217,164,65,0.10), transparent 40%),
+      radial-gradient(circle at 90% 20%, rgba(107,30,43,0.08), transparent 35%);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    min-height:100vh;
+    padding:0 0 80px;
+  }
+  a{color:inherit;}
+
+  header{
+    text-align:center;
+    padding:52px 20px 28px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--mehendi);
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:clamp(38px,6vw,64px);
+    line-height:1.05;
+    margin:0 0 12px;
+    color:var(--maroon-deep);
+  }
+  h1 em{
+    font-style:italic;
+    color:var(--sindoor);
+  }
+  .sub{
+    font-size:16px;
+    color:#6b5a52;
+    max-width:520px;
+    margin:0 auto;
+    line-height:1.5;
+  }
+
+  .layout{
+    max-width:1120px;
+    margin:0 auto;
+    padding:20px 20px 0;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:36px;
+  }
+  @media(min-width:900px){
+    .layout{grid-template-columns:420px 1fr;align-items:start;}
+  }
+
+  .panel{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 18px 40px -28px rgba(107,30,43,0.35);
+  }
+  .field{margin-bottom:18px;}
+  .field:last-of-type{margin-bottom:0;}
+  label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--maroon);
+    margin-bottom:7px;
+  }
+  input[type=text], select, textarea{
+    width:100%;
+    padding:11px 13px;
+    border:1.5px solid var(--line);
+    border-radius:9px;
+    background:var(--ivory);
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  input[type=text]:focus, select:focus, textarea:focus{
+    border-color:var(--gold);
+  }
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+  button.generate{
+    width:100%;
+    margin-top:22px;
+    padding:15px 20px;
+    background:var(--maroon-deep);
+    color:var(--gold-soft);
+    border:none;
+    border-radius:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:transform .12s ease, background .15s ease;
+  }
+  button.generate:hover{background:var(--maroon);}
+  button.generate:active{transform:scale(0.98);}
+  button.generate:disabled{opacity:.55;cursor:default;}
+
+  .hint{
+    font-size:12px;
+    color:#8a776e;
+    margin-top:10px;
+    line-height:1.5;
+  }
+
+  /* ---- Output card ---- */
+  .card-wrap{
+    position:relative;
+    min-height:420px;
+  }
+  .card{
+    position:relative;
+    background:linear-gradient(180deg,#fff, var(--ivory-deep));
+    border-radius:20px;
+    padding:44px 34px;
+    min-height:420px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    border:1.5px solid var(--gold);
+    box-shadow:0 30px 60px -35px rgba(107,30,43,0.45), inset 0 0 0 6px #fff, inset 0 0 0 7px var(--gold-soft);
+  }
+  .corner{position:absolute;width:56px;height:56px;opacity:0.85;}
+  .corner.tl{top:14px;left:14px;}
+  .corner.tr{top:14px;right:14px;transform:scaleX(-1);}
+  .corner.bl{bottom:14px;left:14px;transform:scaleY(-1);}
+  .corner.br{bottom:14px;right:14px;transform:scale(-1,-1);}
+
+  .placeholder{
+    text-align:center;
+    color:#a8968c;
+    font-family:'Cormorant Garamond', serif;
+    font-size:22px;
+    font-style:italic;
+  }
+
+  .result-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--mehendi);
+    text-align:center;
+    margin-bottom:14px;
+  }
+  .result-text{
+    font-family:'Cormorant Garamond', serif;
+    font-size:23px;
+    line-height:1.5;
+    color:var(--maroon-deep);
+    text-align:center;
+    white-space:pre-wrap;
+  }
+  .divider{
+    width:70px;
+    height:1px;
+    background:var(--gold);
+    margin:22px auto;
+  }
+  .sub-block{margin-top:0;}
+  .sub-title{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--sindoor);
+    text-align:center;
+    margin-bottom:8px;
+  }
+  .sub-text{
+    font-family:'Work Sans', sans-serif;
+    font-size:15px;
+    text-align:center;
+    color:var(--ink);
+    white-space:pre-wrap;
+    line-height:1.55;
+  }
+
+  .copy-btn{
+    margin:22px auto 0;
+    display:block;
+    background:none;
+    border:1.5px solid var(--maroon);
+    color:var(--maroon);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:9px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .copy-btn:hover{background:var(--maroon);color:#fff;}
+
+  .spinner{
+    width:26px;height:26px;
+    border:2.5px solid var(--gold-soft);
+    border-top-color:var(--maroon);
+    border-radius:50%;
+    margin:0 auto;
+    animation:spin 0.9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .error-box{
+    text-align:center;
+    color:var(--sindoor);
+    font-size:14px;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:60px;
+    font-size:12px;
+    color:#a8968c;
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  /* ---- Unlock / premium download ---- */
+  .unlock-box{
+    margin-top:26px;
+    padding-top:22px;
+    border-top:1px dashed var(--line);
+    text-align:center;
+  }
+  .unlock-box p{
+    font-size:13px;
+    color:#8a776e;
+    margin:0 0 12px;
+    line-height:1.5;
+  }
+  .unlock-row{
+    display:flex;
+    gap:8px;
+  }
+  .unlock-row input{flex:1;}
+  .pay-link{
+    display:inline-block;
+    margin-top:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--sindoor);
+    text-decoration:underline;
+  }
+  .print-btn{
+    display:none;
+    margin:18px auto 0;
+    padding:12px 22px;
+    background:var(--mehendi);
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .print-btn.show{display:inline-block;}
+  .unlock-msg{
+    font-size:12px;
+    margin-top:8px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .unlock-msg.ok{color:var(--mehendi);}
+  .unlock-msg.bad{color:var(--sindoor);}
+
+  @media print{
+    header, .panel, .unlock-box, footer, .placeholder{display:none !important;}
+    body{background:#fff;padding:0;}
+    .layout{display:block;padding:0;max-width:none;}
+    .card{box-shadow:none;border:1.5pt solid #D9A441;margin:0 auto;max-width:480px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Free &middot; No sign-up &middot; Made for Indian weddings</div>
+  <h1>Words for your <em>big day,</em><br>written in seconds</h1>
+  <p class="sub">Tell us who's getting married and how you want it to sound — ShaadiWords writes the invitation, the WhatsApp message, and the Instagram caption for you.</p>
+</header>
+
+<div class="layout">
+  <div class="panel">
+    <div class="field">
+      <label for="names">Couple's Names</label>
+      <input type="text" id="names" placeholder="e.g. Ananya & Rohan">
+    </div>
+
+    <div class="field row2">
+      <div>
+        <label for="event">Event</label>
+        <select id="event">
+          <option>Wedding</option>
+          <option>Engagement</option>
+          <option>Sangeet / Mehendi</option>
+          <option>Reception</option>
+          <option>Save the Date</option>
+          <option>Haldi</option>
+        </select>
+      </div>
+      <div>
+        <label for="tone">Tone</label>
+        <select id="tone">
+          <option>Traditional</option>
+          <option>Modern & Minimal</option>
+          <option>Fun & Witty</option>
+          <option>Poetic</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field row2">
+      <div>
+        <label for="lang">Language Style</label>
+        <select id="lang">
+          <option>English</option>
+          <option>Hindi + English mix</option>
+          <option>Telugu + English mix</option>
+          <option>Tamil + English mix</option>
+        </select>
+      </div>
+      <div>
+        <label for="date">Date & City (optional)</label>
+        <input type="text" id="date" placeholder="12th Dec, Hyderabad">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="details">Extra Details (optional)</label>
+      <textarea id="details" rows="2" placeholder="Venue name, family names, a personal touch..."></textarea>
+    </div>
+
+    <button class="generate" id="genBtn">Generate Wording</button>
+    <p class="hint">We'll generate three things at once: formal invitation wording, a WhatsApp message, and an Instagram caption.</p>
+  </div>
+
+  <div class="card-wrap">
+    <div class="card" id="card">
+      <svg class="corner tl" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
+      <svg class="corner tr" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
+      <svg class="corner bl" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
+      <svg class="corner br" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
+
+      <div id="cardBody">
+        <p class="placeholder">Your invitation wording will appear here ✦</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>ShaadiWords &middot; crafted for Indian weddings</footer>
+
+<script>
+const genBtn = document.getElementById('genBtn');
+const cardBody = document.getElementById('cardBody');
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+genBtn.addEventListener('click', async () => {
+  const names = document.getElementById('names').value.trim();
+  const event = document.getElementById('event').value;
+  const tone = document.getElementById('tone').value;
+  const lang = document.getElementById('lang').value;
+  const date = document.getElementById('date').value.trim();
+  const details = document.getElementById('details').value.trim();
+
+  if(!names){
+    cardBody.innerHTML = '<p class="error-box">Please enter the couple\\'s names first.</p>';
+    return;
+  }
+
+  genBtn.disabled = true;
+  genBtn.textContent = 'Writing...';
+  cardBody.innerHTML = '<div class="spinner"></div>';
+
+  try{
+    const res = await fetch('/api/generate', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({names, event, tone, lang, date, details})
+    });
+    const data = await res.json();
+
+    if(!res.ok || data.error){
+      throw new Error(data.error || 'Something went wrong');
+    }
+
+    cardBody.innerHTML = `
+      <div class="result-label">Invitation Wording</div>
+      <div class="result-text">${escapeHtml(data.invitation || '')}</div>
+      <div class="divider"></div>
+      <div class="sub-block">
+        <div class="sub-title">WhatsApp Message</div>
+        <div class="sub-text">${escapeHtml(data.whatsapp || '')}</div>
+      </div>
+      <div class="divider"></div>
+      <div class="sub-block">
+        <div class="sub-title">Instagram Caption</div>
+        <div class="sub-text">${escapeHtml(data.instagram || '')}</div>
+      </div>
+      <button class="copy-btn" id="copyBtn">Copy All</button>
+    `;
+
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      const fullText = `${data.invitation}\\n\\nWhatsApp Message:\\n${data.whatsapp}\\n\\nInstagram Caption:\\n${data.instagram}`;
+      navigator.clipboard.writeText(fullText);
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied ✓';
+      setTimeout(()=>{btn.textContent='Copy All';}, 1800);
+    });
+
+  }catch(err){
+    cardBody.innerHTML = `<p class="error-box">${escapeHtml(err.message)}<br>Please try again.</p>`;
+  }finally{
+    genBtn.disabled = false;
+    genBtn.textContent = 'Generate Wording';
+  }
+});
+</script>
+
+</body>
+</html>
