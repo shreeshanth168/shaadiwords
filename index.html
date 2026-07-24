@@ -6,7 +6,7 @@
 <title>ShaadiWords — AI Wedding Invitation & Caption Generator</title>
 <meta name="description" content="Generate beautiful wedding invitation wording, WhatsApp messages, and Instagram captions in seconds — free AI tool for Indian weddings.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --ivory:#FBF6ED;
@@ -30,7 +30,7 @@
     color:var(--ink);
     font-family:'Work Sans', sans-serif;
     min-height:100vh;
-    padding:0 0 80px;
+    padding:0 0 100px;
   }
   a{color:inherit;}
 
@@ -48,20 +48,17 @@
   h1 em{font-style:italic;color:var(--sindoor);}
   .sub{font-size:16px;color:#6b5a52;max-width:520px;margin:0 auto;line-height:1.5;}
 
-  .layout{
-    max-width:1120px;margin:0 auto;padding:20px 20px 0;
-    display:grid;grid-template-columns:1fr;gap:36px;
-  }
-  @media(min-width:900px){
-    .layout{grid-template-columns:420px 1fr;align-items:start;}
-  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
 
+  /* ---- Form section ---- */
   .panel{
     background:#fff;border:1px solid var(--line);border-radius:18px;
-    padding:28px;box-shadow:0 18px 40px -28px rgba(107,30,43,0.35);
+    padding:32px;box-shadow:0 18px 40px -28px rgba(107,30,43,0.35);
+    margin-top:24px;
   }
-  .field{margin-bottom:18px;}
-  .field:last-of-type{margin-bottom:0;}
+  .form-grid{display:grid;grid-template-columns:1fr;gap:18px;}
+  @media(min-width:700px){ .form-grid{grid-template-columns:1fr 1fr;} }
+  .field.full{grid-column:1/-1;}
   label{
     display:block;font-family:'IBM Plex Mono', monospace;font-size:11px;
     letter-spacing:0.08em;text-transform:uppercase;color:var(--maroon);margin-bottom:7px;
@@ -72,140 +69,220 @@
     color:var(--ink);outline:none;transition:border-color .15s ease;
   }
   input[type=text]:focus, select:focus, textarea:focus{border-color:var(--gold);}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 
   button.generate{
-    width:100%;margin-top:22px;padding:15px 20px;background:var(--maroon-deep);
+    width:100%;margin-top:24px;padding:16px 20px;background:var(--maroon-deep);
     color:var(--gold-soft);border:none;border-radius:10px;
     font-family:'IBM Plex Mono', monospace;font-size:13px;letter-spacing:0.06em;
     text-transform:uppercase;cursor:pointer;transition:transform .12s ease, background .15s ease;
   }
   button.generate:hover{background:var(--maroon);}
-  button.generate:active{transform:scale(0.98);}
+  button.generate:active{transform:scale(0.99);}
   button.generate:disabled{opacity:.55;cursor:default;}
+  .hint{font-size:12px;color:#8a776e;margin-top:10px;line-height:1.5;text-align:center;}
 
-  .hint{font-size:12px;color:#8a776e;margin-top:10px;line-height:1.5;}
-
-  /* ---- Template picker ---- */
-  .tpl-section{margin-top:26px;padding-top:22px;border-top:1px dashed var(--line);}
-  .tpl-title{
-    font-family:'IBM Plex Mono', monospace;font-size:11px;letter-spacing:0.08em;
-    text-transform:uppercase;color:var(--maroon);margin-bottom:12px;
+  /* ---- Section headers ---- */
+  .section{margin-top:52px;}
+  .section-head{text-align:center;margin-bottom:24px;}
+  .section-eyebrow{
+    font-family:'IBM Plex Mono', monospace;font-size:10px;letter-spacing:0.2em;
+    text-transform:uppercase;color:var(--mehendi);margin-bottom:6px;
   }
-  .tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .section-title{
+    font-family:'Cormorant Garamond', serif;font-size:28px;font-weight:600;color:var(--maroon-deep);
+  }
+
+  /* ---- Template gallery ---- */
+  .tpl-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:16px;
+  }
+  @media(min-width:640px){ .tpl-grid{grid-template-columns:repeat(4,1fr);} }
   .tpl-card{
-    position:relative;border-radius:10px;overflow:hidden;cursor:pointer;
-    border:2px solid transparent;height:92px;transition:border-color .15s ease, transform .1s ease;
+    position:relative;border-radius:12px;overflow:hidden;cursor:pointer;
+    border:2px solid transparent;transition:border-color .15s ease, transform .12s ease;
+    background:#fff;box-shadow:0 10px 24px -18px rgba(107,30,43,0.4);
   }
-  .tpl-card:hover{transform:translateY(-2px);}
-  .tpl-card.selected{border-color:var(--gold);}
-  .tpl-card .tpl-preview{
-    width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-    font-family:'Cormorant Garamond', serif;font-style:italic;font-size:11px;text-align:center;
-    padding:4px;
+  .tpl-card:hover{transform:translateY(-3px);}
+  .tpl-card.selected{border-color:var(--gold);box-shadow:0 0 0 3px rgba(217,164,65,0.25);}
+  .tpl-preview{
+    height:118px;display:flex;align-items:center;justify-content:center;
+    font-family:'Cormorant Garamond', serif;font-style:italic;font-size:13px;text-align:center;
+    padding:10px;position:relative;
   }
-  .tpl-gold .tpl-preview{background:linear-gradient(180deg,#fff,#F3EAD8);border:1px solid var(--gold);color:var(--maroon-deep);}
-  .tpl-modern .tpl-preview{background:#fff;color:#1A1013;border-left:4px solid var(--gold);}
-  .tpl-mehendi .tpl-preview{background:#F3EAD8;color:var(--mehendi);border-top:4px solid var(--mehendi);border-bottom:4px solid var(--mehendi);}
   .tpl-label{
-    font-family:'IBM Plex Mono', monospace;font-size:9px;text-align:center;
-    margin-top:5px;color:#8a776e;text-transform:uppercase;letter-spacing:0.04em;
+    font-family:'IBM Plex Mono', monospace;font-size:10px;text-align:center;
+    padding:8px 4px;color:#6b5a52;text-transform:uppercase;letter-spacing:0.03em;
+    border-top:1px solid var(--line);
   }
   .lock-badge{
-    position:absolute;top:4px;right:4px;background:var(--maroon-deep);color:var(--gold-soft);
-    font-family:'IBM Plex Mono', monospace;font-size:8px;padding:2px 5px;border-radius:4px;
-    letter-spacing:0.03em;
+    position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.55);color:#F5D98A;
+    font-family:'IBM Plex Mono', monospace;font-size:8px;padding:3px 6px;border-radius:4px;
+    letter-spacing:0.04em;backdrop-filter:blur(2px);
   }
   .premium-note{
-    font-size:11px;color:#8a776e;margin-top:10px;line-height:1.5;text-align:center;
+    font-size:12px;color:#8a776e;margin-top:16px;line-height:1.5;text-align:center;
   }
 
-  /* ---- Output card ---- */
-  .card-wrap{position:relative;min-height:420px;}
+  /* Mini gallery preview swatches */
+  .prev-gold{background:linear-gradient(180deg,#fff,#F3EAD8);border:1px solid var(--gold);color:var(--maroon-deep);}
+  .prev-modern{background:#fff;color:#1A1013;border-left:5px solid var(--gold);text-align:left;padding-left:16px;}
+  .prev-mehendi{background:#F3EAD8;color:var(--mehendi);border-top:4px solid var(--mehendi);border-bottom:4px solid var(--mehendi);}
+  .prev-maroon{background:var(--maroon-deep);color:#E9C77B;}
+  .prev-peach{background:linear-gradient(135deg,#FBEAE3,#F6D8CE);color:#9B4B3F;border:1px solid #E3A895;}
+  .prev-black{background:#0F0F0F;color:#D9A441;border:1px solid #D9A441;}
+  .prev-ivory{background:#FFFDF8;color:#3a2c2e;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);}
+  .prev-vibrant{background:linear-gradient(135deg,#E8546B,#F4A24C);color:#fff;}
+
+  /* ---- Invitation card (this is what prints) ---- */
+  .card-outer{max-width:560px;margin:0 auto;}
   .card{
-    position:relative;border-radius:20px;padding:44px 34px;min-height:420px;
-    display:flex;flex-direction:column;justify-content:center;
+    position:relative;border-radius:22px;padding:56px 40px;min-height:380px;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
     box-shadow:0 30px 60px -35px rgba(107,30,43,0.45);
-    transition:background .2s ease, border .2s ease;
+    transition:all .2s ease;
   }
-  .card.theme-gold{
+  .card .cnames{font-size:34px;line-height:1.15;margin-bottom:18px;font-weight:600;}
+  .card .cdivider{width:60px;height:1px;margin:0 auto 18px;}
+  .card .ceyebrow{font-family:'IBM Plex Mono', monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px;}
+  .card .cbody{font-size:18px;line-height:1.65;white-space:pre-wrap;max-width:420px;}
+  .card .placeholder{font-family:'Cormorant Garamond', serif;font-style:italic;font-size:20px;opacity:0.55;}
+
+  .theme-gold{
     background:linear-gradient(180deg,#fff, var(--ivory-deep));
-    border:1.5px solid var(--gold);
+    border:1.5px solid var(--gold);color:var(--ink);
     box-shadow:0 30px 60px -35px rgba(107,30,43,0.45), inset 0 0 0 6px #fff, inset 0 0 0 7px var(--gold-soft);
   }
-  .card.theme-modern{
-    background:#fff;border:none;border-left:6px solid var(--gold);
-    text-align:left;align-items:flex-start;padding-left:40px;
+  .theme-gold .cnames{color:var(--maroon-deep);font-family:'Cormorant Garamond',serif;}
+  .theme-gold .ceyebrow{color:var(--mehendi);}
+  .theme-gold .cdivider{background:var(--gold);}
+
+  .theme-modern{
+    background:#fff;border:none;border-left:8px solid var(--gold);color:#1A1013;
+    text-align:left;align-items:flex-start;padding-left:48px;
   }
-  .card.theme-mehendi{
-    background:var(--ivory-deep);border:none;
-    box-shadow:0 30px 60px -35px rgba(75,96,67,0.4), inset 0 8px 0 var(--mehendi), inset 0 -8px 0 var(--mehendi);
+  .theme-modern .cnames{font-family:'Playfair Display',serif;color:#1A1013;}
+  .theme-modern .ceyebrow{color:var(--sindoor);}
+  .theme-modern .cdivider{margin:0 0 18px;background:var(--maroon);}
+  .theme-modern .cbody{text-align:left;}
+
+  .theme-mehendi{
+    background:var(--ivory-deep);border:none;color:var(--ink);
+    box-shadow:0 30px 60px -35px rgba(75,96,67,0.4), inset 0 10px 0 var(--mehendi), inset 0 -10px 0 var(--mehendi);
   }
+  .theme-mehendi .cnames{color:var(--mehendi);font-style:italic;font-family:'Cormorant Garamond',serif;}
+  .theme-mehendi .ceyebrow{color:var(--sindoor);}
+  .theme-mehendi .cdivider{background:var(--mehendi);}
+
+  .theme-maroon{
+    background:radial-gradient(circle at 50% 0%, #7a2334, var(--maroon-deep));
+    border:1px solid var(--gold);color:var(--gold-soft);
+    box-shadow:0 30px 70px -30px rgba(0,0,0,0.6), inset 0 0 0 5px var(--maroon-deep), inset 0 0 0 6px var(--gold);
+  }
+  .theme-maroon .cnames{color:#fff;font-family:'Playfair Display',serif;}
+  .theme-maroon .ceyebrow{color:var(--gold-soft);}
+  .theme-maroon .cdivider{background:var(--gold);}
+  .theme-maroon .cbody{color:#F3E3C4;}
+
+  .theme-peach{
+    background:linear-gradient(160deg,#FEF3EE,#F8DCCF);
+    border:1px solid #E3A895;color:#7a3a30;
+  }
+  .theme-peach .cnames{color:#9B4B3F;font-family:'Cormorant Garamond',serif;font-style:italic;}
+  .theme-peach .ceyebrow{color:#B5695A;}
+  .theme-peach .cdivider{background:#D89684;}
+
+  .theme-black{
+    background:#0F0F0F;border:1px solid var(--gold);color:#EFE3C2;
+    box-shadow:0 30px 70px -30px rgba(0,0,0,0.7), inset 0 0 0 4px #0F0F0F, inset 0 0 0 5px var(--gold);
+  }
+  .theme-black .cnames{color:var(--gold);font-family:'Playfair Display',serif;letter-spacing:0.02em;}
+  .theme-black .ceyebrow{color:var(--gold-soft);}
+  .theme-black .cdivider{background:var(--gold);}
+
+  .theme-ivory{
+    background:#FFFDF8;border:none;color:#3a2c2e;
+    border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);
+    border-radius:2px;
+  }
+  .theme-ivory .cnames{color:var(--ink);font-family:'Playfair Display',serif;font-weight:600;}
+  .theme-ivory .ceyebrow{color:#8a776e;}
+  .theme-ivory .cdivider{background:var(--ink);}
+
+  .theme-vibrant{
+    background:linear-gradient(135deg,#E8546B,#F4A24C);
+    border:none;color:#fff;
+  }
+  .theme-vibrant .cnames{color:#fff;font-family:'Playfair Display',serif;}
+  .theme-vibrant .ceyebrow{color:#FFE9D6;}
+  .theme-vibrant .cdivider{background:#fff;}
+  .theme-vibrant .cbody{color:#FFF6EE;}
 
   .corner{position:absolute;width:56px;height:56px;opacity:0.85;}
   .corner.tl{top:14px;left:14px;}
   .corner.tr{top:14px;right:14px;transform:scaleX(-1);}
   .corner.bl{bottom:14px;left:14px;transform:scaleY(-1);}
   .corner.br{bottom:14px;right:14px;transform:scale(-1,-1);}
-  .theme-modern .corner, .theme-mehendi .corner{display:none;}
+  .theme-modern .corner, .theme-black .corner, .theme-ivory .corner, .theme-vibrant .corner{display:none;}
 
-  .placeholder{
-    text-align:center;color:#a8968c;font-family:'Cormorant Garamond', serif;
-    font-size:22px;font-style:italic;
+  .card-actions{text-align:center;margin-top:22px;}
+  .print-btn{
+    background:var(--mehendi);color:#fff;border:none;padding:13px 26px;border-radius:999px;
+    font-family:'IBM Plex Mono', monospace;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;
+    cursor:pointer;transition:background .15s ease;
   }
-
-  .result-label{
-    font-family:'IBM Plex Mono', monospace;font-size:10px;letter-spacing:0.18em;
-    text-transform:uppercase;color:var(--mehendi);text-align:center;margin-bottom:14px;
-  }
-  .theme-modern .result-label{text-align:left;color:var(--sindoor);}
-  .result-text{
-    font-family:'Cormorant Garamond', serif;font-size:23px;line-height:1.5;
-    color:var(--maroon-deep);text-align:center;white-space:pre-wrap;
-  }
-  .theme-modern .result-text{text-align:left;color:#1A1013;}
-  .theme-mehendi .result-text{color:var(--mehendi);font-style:italic;}
-  .divider{width:70px;height:1px;background:var(--gold);margin:22px auto;}
-  .theme-modern .divider{margin:18px 0;}
-  .sub-title{
-    font-family:'IBM Plex Mono', monospace;font-size:10px;letter-spacing:0.14em;
-    text-transform:uppercase;color:var(--sindoor);text-align:center;margin-bottom:8px;
-  }
-  .theme-modern .sub-title{text-align:left;}
-  .sub-text{
-    font-family:'Work Sans', sans-serif;font-size:15px;text-align:center;
-    color:var(--ink);white-space:pre-wrap;line-height:1.55;
-  }
-  .theme-modern .sub-text{text-align:left;}
-
-  .copy-btn, .print-btn{
-    margin:22px auto 0;display:block;background:none;border:1.5px solid var(--maroon);
-    color:var(--maroon);font-family:'IBM Plex Mono', monospace;font-size:11px;
-    letter-spacing:0.06em;text-transform:uppercase;padding:9px 18px;border-radius:999px;cursor:pointer;
-    transition:background .15s ease, color .15s ease;
-  }
-  .copy-btn:hover, .print-btn:hover{background:var(--maroon);color:#fff;}
-  .print-btn{background:var(--mehendi);color:#fff;border-color:var(--mehendi);}
   .print-btn:hover{background:#3a4d35;}
-  .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .print-btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+  /* ---- Copy boxes (WhatsApp / Instagram) ---- */
+  .copy-grid{display:grid;grid-template-columns:1fr;gap:18px;max-width:720px;margin:0 auto;}
+  @media(min-width:700px){ .copy-grid{grid-template-columns:1fr 1fr;} }
+  .copy-box{
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;
+    box-shadow:0 12px 28px -22px rgba(107,30,43,0.35);
+  }
+  .copy-box-head{
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;
+  }
+  .copy-box-title{
+    font-family:'IBM Plex Mono', monospace;font-size:11px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--sindoor);
+  }
+  .copy-box-btn{
+    background:none;border:1.5px solid var(--maroon);color:var(--maroon);
+    font-family:'IBM Plex Mono', monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;
+    padding:6px 14px;border-radius:999px;cursor:pointer;transition:background .15s ease,color .15s ease;
+  }
+  .copy-box-btn:hover{background:var(--maroon);color:#fff;}
+  .copy-box-text{
+    font-size:14.5px;line-height:1.6;color:var(--ink);white-space:pre-wrap;font-family:'Work Sans',sans-serif;
+  }
+
+  .placeholder-msg{
+    text-align:center;color:#a8968c;font-family:'Cormorant Garamond', serif;
+    font-size:20px;font-style:italic;padding:40px 20px;
+  }
 
   .spinner{
     width:26px;height:26px;border:2.5px solid var(--gold-soft);border-top-color:var(--maroon);
-    border-radius:50%;margin:0 auto;animation:spin 0.9s linear infinite;
+    border-radius:50%;margin:40px auto;animation:spin 0.9s linear infinite;
   }
   @keyframes spin{to{transform:rotate(360deg);}}
-  .error-box{text-align:center;color:var(--sindoor);font-size:14px;}
+  .error-box{text-align:center;color:var(--sindoor);font-size:14px;padding:20px;}
 
   footer{
-    text-align:center;margin-top:60px;font-size:12px;color:#a8968c;
+    text-align:center;margin-top:70px;font-size:12px;color:#a8968c;
     font-family:'IBM Plex Mono', monospace;
   }
 
+  .results-area{display:none;}
+  .results-area.show{display:block;}
+
   @media print{
-    header, .panel, footer, .placeholder{display:none !important;}
+    header, .panel, footer, .section-head, .tpl-grid, .premium-note, .card-actions, .copy-grid{display:none !important;}
     body{background:#fff;padding:0;}
-    .layout{display:block;padding:0;max-width:none;}
-    .card{box-shadow:none;margin:0 auto;max-width:480px;}
+    .wrap{max-width:none;padding:0;}
+    .card-outer{max-width:480px;margin:40px auto;}
+    .card{box-shadow:none;}
   }
 </style>
 </head>
@@ -217,15 +294,15 @@
   <p class="sub">Tell us who's getting married and how you want it to sound — ShaadiWords writes the invitation, the WhatsApp message, and the Instagram caption for you.</p>
 </header>
 
-<div class="layout">
-  <div class="panel">
-    <div class="field">
-      <label for="names">Couple's Names</label>
-      <input type="text" id="names" placeholder="e.g. Ananya & Rohan">
-    </div>
+<div class="wrap">
 
-    <div class="field row2">
-      <div>
+  <div class="panel">
+    <div class="form-grid">
+      <div class="field full">
+        <label for="names">Couple's Names</label>
+        <input type="text" id="names" placeholder="e.g. Ananya & Rohan">
+      </div>
+      <div class="field">
         <label for="event">Event</label>
         <select id="event">
           <option>Wedding</option>
@@ -236,7 +313,7 @@
           <option>Haldi</option>
         </select>
       </div>
-      <div>
+      <div class="field">
         <label for="tone">Tone</label>
         <select id="tone">
           <option>Traditional</option>
@@ -245,10 +322,7 @@
           <option>Poetic</option>
         </select>
       </div>
-    </div>
-
-    <div class="field row2">
-      <div>
+      <div class="field">
         <label for="lang">Language Style</label>
         <select id="lang">
           <option>English</option>
@@ -257,56 +331,111 @@
           <option>Tamil + English mix</option>
         </select>
       </div>
-      <div>
+      <div class="field">
         <label for="date">Date & City (optional)</label>
         <input type="text" id="date" placeholder="12th Dec, Hyderabad">
       </div>
-    </div>
-
-    <div class="field">
-      <label for="details">Extra Details (optional)</label>
-      <textarea id="details" rows="2" placeholder="Venue name, family names, a personal touch..."></textarea>
+      <div class="field full">
+        <label for="details">Extra Details (optional)</label>
+        <textarea id="details" rows="2" placeholder="Venue name, family names, a personal touch..."></textarea>
+      </div>
     </div>
 
     <button class="generate" id="genBtn">Generate Wording</button>
     <p class="hint">We'll generate three things at once: formal invitation wording, a WhatsApp message, and an Instagram caption.</p>
-
-    <div class="tpl-section">
-      <div class="tpl-title">Choose a Card Design</div>
-      <div class="tpl-grid">
-        <div class="tpl-card tpl-gold selected" data-theme="theme-gold" data-locked="false">
-          <div class="tpl-preview">Ananya &amp; Rohan</div>
-        </div>
-        <div class="tpl-card tpl-modern" data-theme="theme-modern" data-locked="true">
-          <div class="tpl-preview">Ananya &amp; Rohan</div>
-          <div class="lock-badge">PRO</div>
-        </div>
-        <div class="tpl-card tpl-mehendi" data-theme="theme-mehendi" data-locked="true">
-          <div class="tpl-preview">Ananya &amp; Rohan</div>
-          <div class="lock-badge">PRO</div>
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-        <div class="tpl-label">Traditional Gold</div>
-        <div class="tpl-label">Modern Minimal</div>
-        <div class="tpl-label">Mehendi Green</div>
-      </div>
-      <p class="premium-note">Premium designs unlock with ShaadiWords subscription — coming soon.</p>
-    </div>
   </div>
 
-  <div class="card-wrap">
-    <div class="card theme-gold" id="card">
-      <svg class="corner tl" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
-      <svg class="corner tr" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
-      <svg class="corner bl" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
-      <svg class="corner br" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
+  <div class="results-area" id="resultsArea">
 
-      <div id="cardBody">
-        <p class="placeholder">Your invitation wording will appear here &#10022;</p>
+    <div class="section">
+      <div class="section-head">
+        <div class="section-eyebrow">Step 2</div>
+        <div class="section-title">Choose Your Invitation Card Design</div>
+      </div>
+      <div class="tpl-grid" id="tplGrid">
+        <div class="tpl-card selected" data-theme="theme-gold" data-locked="false">
+          <div class="tpl-preview prev-gold">Ananya &amp; Rohan</div>
+          <div class="tpl-label">Traditional Gold</div>
+        </div>
+        <div class="tpl-card" data-theme="theme-modern" data-locked="false">
+          <div class="tpl-preview prev-modern">Ananya &amp; Rohan</div>
+          <div class="tpl-label">Modern Minimal</div>
+        </div>
+        <div class="tpl-card" data-theme="theme-mehendi" data-locked="false">
+          <div class="tpl-preview prev-mehendi">Ananya &amp; Rohan</div>
+          <div class="tpl-label">Mehendi Green</div>
+        </div>
+        <div class="tpl-card" data-theme="theme-maroon" data-locked="true">
+          <div class="tpl-preview prev-maroon">Ananya &amp; Rohan</div>
+          <div class="lock-badge">PRO</div>
+          <div class="tpl-label">Royal Maroon</div>
+        </div>
+        <div class="tpl-card" data-theme="theme-peach" data-locked="true">
+          <div class="tpl-preview prev-peach">Ananya &amp; Rohan</div>
+          <div class="lock-badge">PRO</div>
+          <div class="tpl-label">Peach Blush</div>
+        </div>
+        <div class="tpl-card" data-theme="theme-black" data-locked="true">
+          <div class="tpl-preview prev-black">Ananya &amp; Rohan</div>
+          <div class="lock-badge">PRO</div>
+          <div class="tpl-label">Black &amp; Gold</div>
+        </div>
+        <div class="tpl-card" data-theme="theme-ivory" data-locked="true">
+          <div class="tpl-preview prev-ivory">Ananya &amp; Rohan</div>
+          <div class="lock-badge">PRO</div>
+          <div class="tpl-label">Ivory Script</div>
+        </div>
+        <div class="tpl-card" data-theme="theme-vibrant" data-locked="true">
+          <div class="tpl-preview prev-vibrant">Ananya &amp; Rohan</div>
+          <div class="lock-badge">PRO</div>
+          <div class="tpl-label">Rajasthani Vibrant</div>
+        </div>
+      </div>
+      <p class="premium-note">3 designs free forever. PRO designs unlock with a ShaadiWords subscription — coming soon.</p>
+    </div>
+
+    <div class="section">
+      <div class="card-outer">
+        <div class="card theme-gold" id="card">
+          <svg class="corner tl" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
+          <svg class="corner tr" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
+          <svg class="corner bl" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
+          <svg class="corner br" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
+          <div id="cardBody">
+            <p class="placeholder">Generate wording above to preview your card</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="print-btn" id="printBtn" disabled>Download Invitation as PDF</button>
       </div>
     </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-eyebrow">Also generated</div>
+        <div class="section-title">Share-Ready Text</div>
+      </div>
+      <div class="copy-grid">
+        <div class="copy-box">
+          <div class="copy-box-head">
+            <div class="copy-box-title">WhatsApp Message</div>
+            <button class="copy-box-btn" id="copyWa">Copy</button>
+          </div>
+          <div class="copy-box-text" id="waText">—</div>
+        </div>
+        <div class="copy-box">
+          <div class="copy-box-head">
+            <div class="copy-box-title">Instagram Caption</div>
+            <button class="copy-box-btn" id="copyIg">Copy</button>
+          </div>
+          <div class="copy-box-text" id="igText">—</div>
+        </div>
+      </div>
+    </div>
+
   </div>
+
 </div>
 
 <footer>ShaadiWords &middot; crafted for Indian weddings</footer>
@@ -315,7 +444,12 @@
 const genBtn = document.getElementById('genBtn');
 const cardBody = document.getElementById('cardBody');
 const card = document.getElementById('card');
-let lastData = null;
+const printBtn = document.getElementById('printBtn');
+const resultsArea = document.getElementById('resultsArea');
+const waText = document.getElementById('waText');
+const igText = document.getElementById('igText');
+
+const ALL_THEMES = ['theme-gold','theme-modern','theme-mehendi','theme-maroon','theme-peach','theme-black','theme-ivory','theme-vibrant'];
 
 function escapeHtml(s){
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -326,45 +460,43 @@ document.querySelectorAll('.tpl-card').forEach(el => {
   el.addEventListener('click', () => {
     const locked = el.getAttribute('data-locked') === 'true';
     if(locked){
-      alert('This premium design unlocks with a ShaadiWords subscription — coming soon! For now, enjoy the free Traditional Gold design.');
+      alert('This design unlocks with a ShaadiWords subscription — coming soon! For now, try Traditional Gold, Modern Minimal, or Mehendi Green — all free.');
       return;
     }
     document.querySelectorAll('.tpl-card').forEach(c => c.classList.remove('selected'));
     el.classList.add('selected');
     const theme = el.getAttribute('data-theme');
-    card.classList.remove('theme-gold','theme-modern','theme-mehendi');
+    card.classList.remove(...ALL_THEMES);
     card.classList.add(theme);
   });
 });
 
-function renderCard(data){
+function renderCard(invitationText){
   cardBody.innerHTML = `
-    <div class="result-label">Invitation Wording</div>
-    <div class="result-text">${escapeHtml(data.invitation || '')}</div>
-    <div class="divider"></div>
-    <div class="sub-title">WhatsApp Message</div>
-    <div class="sub-text">${escapeHtml(data.whatsapp || '')}</div>
-    <div class="divider"></div>
-    <div class="sub-title">Instagram Caption</div>
-    <div class="sub-text">${escapeHtml(data.instagram || '')}</div>
-    <div class="btn-row">
-      <button class="copy-btn" id="copyBtn">Copy All</button>
-      <button class="print-btn" id="printBtn">Download as PDF</button>
-    </div>
+    <div class="ceyebrow">You're Invited</div>
+    <div class="cnames">${escapeHtml(document.getElementById('names').value.trim())}</div>
+    <div class="cdivider"></div>
+    <div class="cbody">${escapeHtml(invitationText)}</div>
   `;
-
-  document.getElementById('copyBtn').addEventListener('click', () => {
-    const fullText = data.invitation + "\n\nWhatsApp Message:\n" + data.whatsapp + "\n\nInstagram Caption:\n" + data.instagram;
-    navigator.clipboard.writeText(fullText);
-    const btn = document.getElementById('copyBtn');
-    btn.textContent = 'Copied ✓';
-    setTimeout(()=>{btn.textContent='Copy All';}, 1800);
-  });
-
-  document.getElementById('printBtn').addEventListener('click', () => {
-    window.print();
-  });
+  printBtn.disabled = false;
 }
+
+printBtn.addEventListener('click', () => {
+  window.print();
+});
+
+document.getElementById('copyWa').addEventListener('click', () => {
+  navigator.clipboard.writeText(waText.textContent);
+  const btn = document.getElementById('copyWa');
+  btn.textContent = 'Copied ✓';
+  setTimeout(()=>{btn.textContent='Copy';}, 1600);
+});
+document.getElementById('copyIg').addEventListener('click', () => {
+  navigator.clipboard.writeText(igText.textContent);
+  const btn = document.getElementById('copyIg');
+  btn.textContent = 'Copied ✓';
+  setTimeout(()=>{btn.textContent='Copy';}, 1600);
+});
 
 genBtn.addEventListener('click', async () => {
   const names = document.getElementById('names').value.trim();
@@ -375,13 +507,17 @@ genBtn.addEventListener('click', async () => {
   const details = document.getElementById('details').value.trim();
 
   if(!names){
-    cardBody.innerHTML = "<p class=\"error-box\">Please enter the couple's names first.</p>";
+    alert("Please enter the couple's names first.");
     return;
   }
 
   genBtn.disabled = true;
   genBtn.textContent = 'Writing...';
+  resultsArea.classList.add('show');
   cardBody.innerHTML = '<div class="spinner"></div>';
+  waText.textContent = '...';
+  igText.textContent = '...';
+  printBtn.disabled = true;
 
   try{
     const res = await fetch('/api/generate', {
@@ -395,8 +531,11 @@ genBtn.addEventListener('click', async () => {
       throw new Error(data.error || 'Something went wrong');
     }
 
-    lastData = data;
-    renderCard(data);
+    renderCard(data.invitation || '');
+    waText.textContent = data.whatsapp || '';
+    igText.textContent = data.instagram || '';
+
+    document.getElementById('resultsArea').scrollIntoView({behavior:'smooth', block:'start'});
 
   }catch(err){
     cardBody.innerHTML = `<p class="error-box">${escapeHtml(err.message)}<br>Please try again.</p>`;
