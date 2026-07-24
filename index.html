@@ -34,222 +34,178 @@
   }
   a{color:inherit;}
 
-  header{
-    text-align:center;
-    padding:52px 20px 28px;
-  }
+  header{text-align:center;padding:52px 20px 28px;}
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
-    letter-spacing:0.22em;
-    text-transform:uppercase;
-    color:var(--mehendi);
-    margin-bottom:14px;
+    font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--mehendi);margin-bottom:14px;
   }
   h1{
-    font-family:'Cormorant Garamond', serif;
-    font-weight:600;
-    font-size:clamp(38px,6vw,64px);
-    line-height:1.05;
-    margin:0 0 12px;
+    font-family:'Cormorant Garamond', serif;font-weight:600;
+    font-size:clamp(38px,6vw,64px);line-height:1.05;margin:0 0 12px;
     color:var(--maroon-deep);
   }
-  h1 em{
-    font-style:italic;
-    color:var(--sindoor);
-  }
-  .sub{
-    font-size:16px;
-    color:#6b5a52;
-    max-width:520px;
-    margin:0 auto;
-    line-height:1.5;
-  }
+  h1 em{font-style:italic;color:var(--sindoor);}
+  .sub{font-size:16px;color:#6b5a52;max-width:520px;margin:0 auto;line-height:1.5;}
 
   .layout{
-    max-width:1120px;
-    margin:0 auto;
-    padding:20px 20px 0;
-    display:grid;
-    grid-template-columns:1fr;
-    gap:36px;
+    max-width:1120px;margin:0 auto;padding:20px 20px 0;
+    display:grid;grid-template-columns:1fr;gap:36px;
   }
   @media(min-width:900px){
     .layout{grid-template-columns:420px 1fr;align-items:start;}
   }
 
   .panel{
-    background:#fff;
-    border:1px solid var(--line);
-    border-radius:18px;
-    padding:28px;
-    box-shadow:0 18px 40px -28px rgba(107,30,43,0.35);
+    background:#fff;border:1px solid var(--line);border-radius:18px;
+    padding:28px;box-shadow:0 18px 40px -28px rgba(107,30,43,0.35);
   }
   .field{margin-bottom:18px;}
   .field:last-of-type{margin-bottom:0;}
   label{
-    display:block;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--maroon);
-    margin-bottom:7px;
+    display:block;font-family:'IBM Plex Mono', monospace;font-size:11px;
+    letter-spacing:0.08em;text-transform:uppercase;color:var(--maroon);margin-bottom:7px;
   }
   input[type=text], select, textarea{
-    width:100%;
-    padding:11px 13px;
-    border:1.5px solid var(--line);
-    border-radius:9px;
-    background:var(--ivory);
-    font-family:'Work Sans', sans-serif;
-    font-size:15px;
-    color:var(--ink);
-    outline:none;
-    transition:border-color .15s ease;
+    width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:9px;
+    background:var(--ivory);font-family:'Work Sans', sans-serif;font-size:15px;
+    color:var(--ink);outline:none;transition:border-color .15s ease;
   }
-  input[type=text]:focus, select:focus, textarea:focus{
-    border-color:var(--gold);
-  }
+  input[type=text]:focus, select:focus, textarea:focus{border-color:var(--gold);}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 
   button.generate{
-    width:100%;
-    margin-top:22px;
-    padding:15px 20px;
-    background:var(--maroon-deep);
-    color:var(--gold-soft);
-    border:none;
-    border-radius:10px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:13px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    cursor:pointer;
-    transition:transform .12s ease, background .15s ease;
+    width:100%;margin-top:22px;padding:15px 20px;background:var(--maroon-deep);
+    color:var(--gold-soft);border:none;border-radius:10px;
+    font-family:'IBM Plex Mono', monospace;font-size:13px;letter-spacing:0.06em;
+    text-transform:uppercase;cursor:pointer;transition:transform .12s ease, background .15s ease;
   }
   button.generate:hover{background:var(--maroon);}
   button.generate:active{transform:scale(0.98);}
   button.generate:disabled{opacity:.55;cursor:default;}
 
-  .hint{
-    font-size:12px;
-    color:#8a776e;
-    margin-top:10px;
-    line-height:1.5;
+  .hint{font-size:12px;color:#8a776e;margin-top:10px;line-height:1.5;}
+
+  /* ---- Template picker ---- */
+  .tpl-section{margin-top:26px;padding-top:22px;border-top:1px dashed var(--line);}
+  .tpl-title{
+    font-family:'IBM Plex Mono', monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--maroon);margin-bottom:12px;
+  }
+  .tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .tpl-card{
+    position:relative;border-radius:10px;overflow:hidden;cursor:pointer;
+    border:2px solid transparent;height:92px;transition:border-color .15s ease, transform .1s ease;
+  }
+  .tpl-card:hover{transform:translateY(-2px);}
+  .tpl-card.selected{border-color:var(--gold);}
+  .tpl-card .tpl-preview{
+    width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+    font-family:'Cormorant Garamond', serif;font-style:italic;font-size:11px;text-align:center;
+    padding:4px;
+  }
+  .tpl-gold .tpl-preview{background:linear-gradient(180deg,#fff,#F3EAD8);border:1px solid var(--gold);color:var(--maroon-deep);}
+  .tpl-modern .tpl-preview{background:#fff;color:#1A1013;border-left:4px solid var(--gold);}
+  .tpl-mehendi .tpl-preview{background:#F3EAD8;color:var(--mehendi);border-top:4px solid var(--mehendi);border-bottom:4px solid var(--mehendi);}
+  .tpl-label{
+    font-family:'IBM Plex Mono', monospace;font-size:9px;text-align:center;
+    margin-top:5px;color:#8a776e;text-transform:uppercase;letter-spacing:0.04em;
+  }
+  .lock-badge{
+    position:absolute;top:4px;right:4px;background:var(--maroon-deep);color:var(--gold-soft);
+    font-family:'IBM Plex Mono', monospace;font-size:8px;padding:2px 5px;border-radius:4px;
+    letter-spacing:0.03em;
+  }
+  .premium-note{
+    font-size:11px;color:#8a776e;margin-top:10px;line-height:1.5;text-align:center;
   }
 
-  .card-wrap{
-    position:relative;
-    min-height:420px;
-  }
+  /* ---- Output card ---- */
+  .card-wrap{position:relative;min-height:420px;}
   .card{
-    position:relative;
+    position:relative;border-radius:20px;padding:44px 34px;min-height:420px;
+    display:flex;flex-direction:column;justify-content:center;
+    box-shadow:0 30px 60px -35px rgba(107,30,43,0.45);
+    transition:background .2s ease, border .2s ease;
+  }
+  .card.theme-gold{
     background:linear-gradient(180deg,#fff, var(--ivory-deep));
-    border-radius:20px;
-    padding:44px 34px;
-    min-height:420px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
     border:1.5px solid var(--gold);
     box-shadow:0 30px 60px -35px rgba(107,30,43,0.45), inset 0 0 0 6px #fff, inset 0 0 0 7px var(--gold-soft);
   }
+  .card.theme-modern{
+    background:#fff;border:none;border-left:6px solid var(--gold);
+    text-align:left;align-items:flex-start;padding-left:40px;
+  }
+  .card.theme-mehendi{
+    background:var(--ivory-deep);border:none;
+    box-shadow:0 30px 60px -35px rgba(75,96,67,0.4), inset 0 8px 0 var(--mehendi), inset 0 -8px 0 var(--mehendi);
+  }
+
   .corner{position:absolute;width:56px;height:56px;opacity:0.85;}
   .corner.tl{top:14px;left:14px;}
   .corner.tr{top:14px;right:14px;transform:scaleX(-1);}
   .corner.bl{bottom:14px;left:14px;transform:scaleY(-1);}
   .corner.br{bottom:14px;right:14px;transform:scale(-1,-1);}
+  .theme-modern .corner, .theme-mehendi .corner{display:none;}
 
   .placeholder{
-    text-align:center;
-    color:#a8968c;
-    font-family:'Cormorant Garamond', serif;
-    font-size:22px;
-    font-style:italic;
+    text-align:center;color:#a8968c;font-family:'Cormorant Garamond', serif;
+    font-size:22px;font-style:italic;
   }
 
   .result-label{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    letter-spacing:0.18em;
-    text-transform:uppercase;
-    color:var(--mehendi);
-    text-align:center;
-    margin-bottom:14px;
+    font-family:'IBM Plex Mono', monospace;font-size:10px;letter-spacing:0.18em;
+    text-transform:uppercase;color:var(--mehendi);text-align:center;margin-bottom:14px;
   }
+  .theme-modern .result-label{text-align:left;color:var(--sindoor);}
   .result-text{
-    font-family:'Cormorant Garamond', serif;
-    font-size:23px;
-    line-height:1.5;
-    color:var(--maroon-deep);
-    text-align:center;
-    white-space:pre-wrap;
+    font-family:'Cormorant Garamond', serif;font-size:23px;line-height:1.5;
+    color:var(--maroon-deep);text-align:center;white-space:pre-wrap;
   }
-  .divider{
-    width:70px;
-    height:1px;
-    background:var(--gold);
-    margin:22px auto;
-  }
-  .sub-block{margin-top:0;}
+  .theme-modern .result-text{text-align:left;color:#1A1013;}
+  .theme-mehendi .result-text{color:var(--mehendi);font-style:italic;}
+  .divider{width:70px;height:1px;background:var(--gold);margin:22px auto;}
+  .theme-modern .divider{margin:18px 0;}
   .sub-title{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--sindoor);
-    text-align:center;
-    margin-bottom:8px;
+    font-family:'IBM Plex Mono', monospace;font-size:10px;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--sindoor);text-align:center;margin-bottom:8px;
   }
+  .theme-modern .sub-title{text-align:left;}
   .sub-text{
-    font-family:'Work Sans', sans-serif;
-    font-size:15px;
-    text-align:center;
-    color:var(--ink);
-    white-space:pre-wrap;
-    line-height:1.55;
+    font-family:'Work Sans', sans-serif;font-size:15px;text-align:center;
+    color:var(--ink);white-space:pre-wrap;line-height:1.55;
   }
+  .theme-modern .sub-text{text-align:left;}
 
-  .copy-btn{
-    margin:22px auto 0;
-    display:block;
-    background:none;
-    border:1.5px solid var(--maroon);
-    color:var(--maroon);
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    padding:9px 18px;
-    border-radius:999px;
-    cursor:pointer;
+  .copy-btn, .print-btn{
+    margin:22px auto 0;display:block;background:none;border:1.5px solid var(--maroon);
+    color:var(--maroon);font-family:'IBM Plex Mono', monospace;font-size:11px;
+    letter-spacing:0.06em;text-transform:uppercase;padding:9px 18px;border-radius:999px;cursor:pointer;
     transition:background .15s ease, color .15s ease;
   }
-  .copy-btn:hover{background:var(--maroon);color:#fff;}
+  .copy-btn:hover, .print-btn:hover{background:var(--maroon);color:#fff;}
+  .print-btn{background:var(--mehendi);color:#fff;border-color:var(--mehendi);}
+  .print-btn:hover{background:#3a4d35;}
+  .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 
   .spinner{
-    width:26px;height:26px;
-    border:2.5px solid var(--gold-soft);
-    border-top-color:var(--maroon);
-    border-radius:50%;
-    margin:0 auto;
-    animation:spin 0.9s linear infinite;
+    width:26px;height:26px;border:2.5px solid var(--gold-soft);border-top-color:var(--maroon);
+    border-radius:50%;margin:0 auto;animation:spin 0.9s linear infinite;
   }
   @keyframes spin{to{transform:rotate(360deg);}}
-
-  .error-box{
-    text-align:center;
-    color:var(--sindoor);
-    font-size:14px;
-  }
+  .error-box{text-align:center;color:var(--sindoor);font-size:14px;}
 
   footer{
-    text-align:center;
-    margin-top:60px;
-    font-size:12px;
-    color:#a8968c;
+    text-align:center;margin-top:60px;font-size:12px;color:#a8968c;
     font-family:'IBM Plex Mono', monospace;
+  }
+
+  @media print{
+    header, .panel, footer, .placeholder{display:none !important;}
+    body{background:#fff;padding:0;}
+    .layout{display:block;padding:0;max-width:none;}
+    .card{box-shadow:none;margin:0 auto;max-width:480px;}
   }
 </style>
 </head>
@@ -314,17 +270,40 @@
 
     <button class="generate" id="genBtn">Generate Wording</button>
     <p class="hint">We'll generate three things at once: formal invitation wording, a WhatsApp message, and an Instagram caption.</p>
+
+    <div class="tpl-section">
+      <div class="tpl-title">Choose a Card Design</div>
+      <div class="tpl-grid">
+        <div class="tpl-card tpl-gold selected" data-theme="theme-gold" data-locked="false">
+          <div class="tpl-preview">Ananya &amp; Rohan</div>
+        </div>
+        <div class="tpl-card tpl-modern" data-theme="theme-modern" data-locked="true">
+          <div class="tpl-preview">Ananya &amp; Rohan</div>
+          <div class="lock-badge">PRO</div>
+        </div>
+        <div class="tpl-card tpl-mehendi" data-theme="theme-mehendi" data-locked="true">
+          <div class="tpl-preview">Ananya &amp; Rohan</div>
+          <div class="lock-badge">PRO</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+        <div class="tpl-label">Traditional Gold</div>
+        <div class="tpl-label">Modern Minimal</div>
+        <div class="tpl-label">Mehendi Green</div>
+      </div>
+      <p class="premium-note">Premium designs unlock with ShaadiWords subscription — coming soon.</p>
+    </div>
   </div>
 
   <div class="card-wrap">
-    <div class="card" id="card">
+    <div class="card theme-gold" id="card">
       <svg class="corner tl" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
       <svg class="corner tr" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
       <svg class="corner bl" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
       <svg class="corner br" viewBox="0 0 56 56"><path d="M2 2 Q2 30 30 30" fill="none" stroke="#D9A441" stroke-width="1.5"/><circle cx="2" cy="2" r="3" fill="#C1272D"/><path d="M2 14 Q14 14 14 2" fill="none" stroke="#4B6043" stroke-width="1.2"/></svg>
 
       <div id="cardBody">
-        <p class="placeholder">Your invitation wording will appear here ✦</p>
+        <p class="placeholder">Your invitation wording will appear here &#10022;</p>
       </div>
     </div>
   </div>
@@ -335,9 +314,56 @@
 <script>
 const genBtn = document.getElementById('genBtn');
 const cardBody = document.getElementById('cardBody');
+const card = document.getElementById('card');
+let lastData = null;
 
 function escapeHtml(s){
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ---- Template picker ----
+document.querySelectorAll('.tpl-card').forEach(el => {
+  el.addEventListener('click', () => {
+    const locked = el.getAttribute('data-locked') === 'true';
+    if(locked){
+      alert('This premium design unlocks with a ShaadiWords subscription — coming soon! For now, enjoy the free Traditional Gold design.');
+      return;
+    }
+    document.querySelectorAll('.tpl-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    const theme = el.getAttribute('data-theme');
+    card.classList.remove('theme-gold','theme-modern','theme-mehendi');
+    card.classList.add(theme);
+  });
+});
+
+function renderCard(data){
+  cardBody.innerHTML = `
+    <div class="result-label">Invitation Wording</div>
+    <div class="result-text">${escapeHtml(data.invitation || '')}</div>
+    <div class="divider"></div>
+    <div class="sub-title">WhatsApp Message</div>
+    <div class="sub-text">${escapeHtml(data.whatsapp || '')}</div>
+    <div class="divider"></div>
+    <div class="sub-title">Instagram Caption</div>
+    <div class="sub-text">${escapeHtml(data.instagram || '')}</div>
+    <div class="btn-row">
+      <button class="copy-btn" id="copyBtn">Copy All</button>
+      <button class="print-btn" id="printBtn">Download as PDF</button>
+    </div>
+  `;
+
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    const fullText = data.invitation + "\n\nWhatsApp Message:\n" + data.whatsapp + "\n\nInstagram Caption:\n" + data.instagram;
+    navigator.clipboard.writeText(fullText);
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied ✓';
+    setTimeout(()=>{btn.textContent='Copy All';}, 1800);
+  });
+
+  document.getElementById('printBtn').addEventListener('click', () => {
+    window.print();
+  });
 }
 
 genBtn.addEventListener('click', async () => {
@@ -369,29 +395,8 @@ genBtn.addEventListener('click', async () => {
       throw new Error(data.error || 'Something went wrong');
     }
 
-    cardBody.innerHTML = `
-      <div class="result-label">Invitation Wording</div>
-      <div class="result-text">${escapeHtml(data.invitation || '')}</div>
-      <div class="divider"></div>
-      <div class="sub-block">
-        <div class="sub-title">WhatsApp Message</div>
-        <div class="sub-text">${escapeHtml(data.whatsapp || '')}</div>
-      </div>
-      <div class="divider"></div>
-      <div class="sub-block">
-        <div class="sub-title">Instagram Caption</div>
-        <div class="sub-text">${escapeHtml(data.instagram || '')}</div>
-      </div>
-      <button class="copy-btn" id="copyBtn">Copy All</button>
-    `;
-
-    document.getElementById('copyBtn').addEventListener('click', () => {
-      const fullText = data.invitation + "\n\nWhatsApp Message:\n" + data.whatsapp + "\n\nInstagram Caption:\n" + data.instagram;
-      navigator.clipboard.writeText(fullText);
-      const btn = document.getElementById('copyBtn');
-      btn.textContent = 'Copied ✓';
-      setTimeout(()=>{btn.textContent='Copy All';}, 1800);
-    });
+    lastData = data;
+    renderCard(data);
 
   }catch(err){
     cardBody.innerHTML = `<p class="error-box">${escapeHtml(err.message)}<br>Please try again.</p>`;
