@@ -139,7 +139,6 @@
     line-height:1.5;
   }
 
-  /* ---- Output card ---- */
   .card-wrap{
     position:relative;
     min-height:420px;
@@ -252,62 +251,6 @@
     color:#a8968c;
     font-family:'IBM Plex Mono', monospace;
   }
-
-  /* ---- Unlock / premium download ---- */
-  .unlock-box{
-    margin-top:26px;
-    padding-top:22px;
-    border-top:1px dashed var(--line);
-    text-align:center;
-  }
-  .unlock-box p{
-    font-size:13px;
-    color:#8a776e;
-    margin:0 0 12px;
-    line-height:1.5;
-  }
-  .unlock-row{
-    display:flex;
-    gap:8px;
-  }
-  .unlock-row input{flex:1;}
-  .pay-link{
-    display:inline-block;
-    margin-top:10px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px;
-    color:var(--sindoor);
-    text-decoration:underline;
-  }
-  .print-btn{
-    display:none;
-    margin:18px auto 0;
-    padding:12px 22px;
-    background:var(--mehendi);
-    color:#fff;
-    border:none;
-    border-radius:999px;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-    cursor:pointer;
-  }
-  .print-btn.show{display:inline-block;}
-  .unlock-msg{
-    font-size:12px;
-    margin-top:8px;
-    font-family:'IBM Plex Mono', monospace;
-  }
-  .unlock-msg.ok{color:var(--mehendi);}
-  .unlock-msg.bad{color:var(--sindoor);}
-
-  @media print{
-    header, .panel, .unlock-box, footer, .placeholder{display:none !important;}
-    body{background:#fff;padding:0;}
-    .layout{display:block;padding:0;max-width:none;}
-    .card{box-shadow:none;border:1.5pt solid #D9A441;margin:0 auto;max-width:480px;}
-  }
 </style>
 </head>
 <body>
@@ -406,7 +349,7 @@ genBtn.addEventListener('click', async () => {
   const details = document.getElementById('details').value.trim();
 
   if(!names){
-    cardBody.innerHTML = '<p class="error-box">Please enter the couple\\'s names first.</p>';
+    cardBody.innerHTML = "<p class=\"error-box\">Please enter the couple's names first.</p>";
     return;
   }
 
@@ -443,7 +386,7 @@ genBtn.addEventListener('click', async () => {
     `;
 
     document.getElementById('copyBtn').addEventListener('click', () => {
-      const fullText = `${data.invitation}\\n\\nWhatsApp Message:\\n${data.whatsapp}\\n\\nInstagram Caption:\\n${data.instagram}`;
+      const fullText = data.invitation + "\n\nWhatsApp Message:\n" + data.whatsapp + "\n\nInstagram Caption:\n" + data.instagram;
       navigator.clipboard.writeText(fullText);
       const btn = document.getElementById('copyBtn');
       btn.textContent = 'Copied ✓';
