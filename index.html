@@ -185,6 +185,7 @@
   /* ---- Rendered mini-invitation inside gallery card / main preview ---- */
   .tpl-render{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;}
   .tpl-content{position:relative;z-index:3;text-align:center;padding:14px 12px;width:100%;}
+  #cardBody .tpl-content.has-monogram{padding-top:26%;}
   .tpl-content.align-left{text-align:left;padding-left:20%;}
   .tpl-content.align-left .tpl-rule{margin:0 0 8px;}
   .tpl-content.align-left .tpl-divider{margin:8px 0;}
@@ -225,16 +226,16 @@
 
   /* ---- Invitation card (glass framed, floats) ---- */
   .frame-outer{
-    max-width:600px;margin:0 auto;padding:32px;border-radius:32px;
+    max-width:640px;margin:0 auto;padding:32px;border-radius:32px;
     background:linear-gradient(160deg,#FFFBF3,#FBE7DC);
     box-shadow:0 36px 90px -34px rgba(107,30,43,0.45), inset 0 1px 0 rgba(255,255,255,0.7);
     display:flex;align-items:center;justify-content:center;
-    aspect-ratio:1/1; transition:aspect-ratio .3s ease;
+    aspect-ratio:5/7; transition:aspect-ratio .3s ease;
     overflow:hidden;
   }
   .card-outer{ width:100%; }
   .card{
-    position:relative;border-radius:22px;padding:56px 44px;min-height:400px;
+    position:relative;border-radius:22px;padding:64px 48px;min-height:600px;
     display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
     box-shadow:0 30px 60px -35px rgba(107,30,43,0.45);
     transition:all .25s ease;overflow:hidden;
@@ -250,7 +251,8 @@
 
   /* ---- Format picker ---- */
   .fmt-grid{ display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:760px;margin:0 auto; }
-  @media(min-width:640px){ .fmt-grid{grid-template-columns:repeat(7,1fr);} }
+  @media(min-width:640px){ .fmt-grid{grid-template-columns:repeat(4,1fr);} }
+  @media(min-width:900px){ .fmt-grid{grid-template-columns:repeat(8,1fr);} }
   .fmt-card{
     position:relative;border-radius:12px;cursor:pointer;padding:12px 6px;
     border:2px solid var(--glass-border);background:var(--glass-bg);backdrop-filter:blur(10px);
@@ -540,7 +542,11 @@
           <div class="section-title">Choose Format &amp; Download</div>
         </div>
         <div class="fmt-grid" id="fmtGrid">
-          <div class="fmt-card selected" data-fmt="ig-post" data-ratio="1/1" data-w="1080" data-h="1080">
+          <div class="fmt-card selected" data-fmt="card" data-ratio="5/7" data-w="1500" data-h="2100">
+            <div class="fmt-shape" style="width:19px;height:26px;"></div>
+            <div class="fmt-label">Invitation<br>Card</div>
+          </div>
+          <div class="fmt-card" data-fmt="ig-post" data-ratio="1/1" data-w="1080" data-h="1080">
             <div class="fmt-shape" style="width:26px;height:26px;"></div>
             <div class="fmt-label">Instagram<br>Post</div>
           </div>
@@ -617,7 +623,7 @@ const igText = document.getElementById('igText');
 const frameOuter = document.getElementById('frameOuter');
 
 const ALL_MOTIFS = ['lotus','mandala','palace','temple','flowers','peacock','gate'];
-let currentFormat = { fmt:'ig-post', ratio:'1/1', w:1080, h:1080, label:'Instagram Post' };
+let currentFormat = { fmt:'card', ratio:'5/7', w:1500, h:2100, label:'Invitation Card' };
 let lastInvitationText = '';
 
 function escapeHtml(s){
@@ -754,10 +760,12 @@ function paintMainCard(){
   tplDecor.innerHTML = buildDecorHTML(tpl, initials);
 
   const alignClass = tpl.layout === 'left' ? 'align-left' : '';
+  const monoClass = tpl.decor.includes('monogram') ? 'has-monogram' : '';
+  const contentClass = (alignClass + ' ' + monoClass).trim();
 
   if(lastInvitationText){
     cardBody.innerHTML = `
-      <div class="tpl-content ${alignClass}">
+      <div class="tpl-content ${contentClass}">
         <div class="tpl-eyebrow" style="font-family:'${tpl.bodyFont}',serif;color:${tpl.accent};">You're Invited</div>
         <div class="tpl-names" style="font-family:'${tpl.headingFont}',serif;color:${tpl.text};">${escapeHtml(names)}</div>
         <div class="tpl-divider" style="background:${tpl.accent};"></div>
@@ -765,7 +773,7 @@ function paintMainCard(){
       </div>
     `;
   } else {
-    cardBody.innerHTML = `<p class="placeholder" style="color:${tpl.text};">Generate wording above to preview your card</p>`;
+    cardBody.innerHTML = `<div class="tpl-content ${contentClass}"><p class="placeholder" style="color:${tpl.text};">Generate wording above to preview your card</p></div>`;
   }
 }
 
