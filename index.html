@@ -305,6 +305,58 @@
   .results-area{display:none;}
   .results-area.show{display:block;}
 
+  /* ---- Ad gate modal ---- */
+  .ad-gate-overlay{
+    position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    background:rgba(20,10,8,0.55);backdrop-filter:blur(6px);padding:20px;
+  }
+  .ad-gate-overlay.show{display:flex;animation:fadeInUp .3s ease both;}
+  .ad-gate-box{
+    position:relative;background:#fff;border-radius:20px;max-width:440px;width:100%;
+    padding:30px;box-shadow:0 40px 80px -30px rgba(0,0,0,0.5);
+    border:1px solid var(--glass-border);
+  }
+  .ad-gate-eyebrow{
+    font-family:'IBM Plex Mono', monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--mehendi);margin-bottom:8px;text-align:center;
+  }
+  .ad-gate-title{
+    font-family:'Cormorant Garamond', serif;font-size:24px;font-weight:600;color:var(--maroon-deep);
+    text-align:center;line-height:1.3;margin-bottom:8px;
+  }
+  .ad-gate-sub{font-size:12.5px;color:#8a776e;text-align:center;line-height:1.5;margin:0 0 20px;}
+  .ad-slot{
+    background:#F3EAD8;border-radius:14px;min-height:200px;display:flex;align-items:center;justify-content:center;
+    border:1.5px dashed rgba(107,30,43,0.25);margin-bottom:20px;
+  }
+  .ad-slot-placeholder{text-align:center;color:#a8968c;}
+  .ad-slot-badge{
+    display:inline-block;background:var(--maroon-deep);color:var(--gold-light);font-size:10px;
+    font-family:'IBM Plex Mono', monospace;letter-spacing:0.08em;padding:3px 10px;border-radius:5px;margin-bottom:10px;
+  }
+  .ad-slot-placeholder p{margin:2px 0;font-size:13px;}
+  .ad-slot-note{font-size:11px !important;opacity:0.8;}
+  .ad-gate-footer{display:flex;align-items:center;justify-content:space-between;gap:14px;}
+  .ad-countdown-wrap{
+    display:flex;flex-direction:column;align-items:center;font-family:'IBM Plex Mono', monospace;
+    min-width:56px;
+  }
+  .ad-countdown-num{font-size:22px;color:var(--maroon-deep);font-weight:600;}
+  .ad-countdown-label{font-size:9px;color:#8a776e;text-transform:uppercase;letter-spacing:0.05em;}
+  .ad-continue-btn{
+    flex:1;padding:14px 16px;border:none;border-radius:11px;cursor:pointer;
+    background:linear-gradient(135deg,var(--mehendi),#3a4d35);color:#fff;
+    font-family:'IBM Plex Mono', monospace;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;
+    transition:opacity .2s ease, transform .15s ease;
+  }
+  .ad-continue-btn:disabled{opacity:0.45;cursor:not-allowed;}
+  .ad-continue-btn:not(:disabled):hover{transform:translateY(-2px);}
+  .ad-close-btn{
+    position:absolute;top:10px;right:12px;background:none;border:none;font-size:20px;
+    color:#a8968c;cursor:pointer;line-height:1;padding:4px;
+  }
+  .ad-close-btn:hover{color:var(--sindoor);}
+
   @media(max-width:480px){
     header{padding:40px 16px 22px;}
     .panel{padding:22px;border-radius:18px;}
@@ -316,7 +368,7 @@
   }
 
   @media print{
-    header, .panel, footer, .section-head, .tpl-grid, .premium-note, .card-actions, .copy-grid, .blob, .petal, .bg-grid, .fmt-grid{display:none !important;}
+    header, .panel, footer, .section-head, .tpl-grid, .premium-note, .card-actions, .copy-grid, .blob, .petal, .bg-grid, .fmt-grid, .ad-gate-overlay{display:none !important;}
     body{background:#fff;padding:0;}
     .wrap{max-width:none;padding:0;}
     .frame-outer{max-width:480px;margin:40px auto;background:none;box-shadow:none;aspect-ratio:auto !important;padding:0;}
@@ -608,7 +660,47 @@
 
 </div>
 
-<footer>ShaadiWords &middot; crafted for Indian weddings</footer>
+<div class="ad-gate-overlay" id="adGateOverlay">
+  <div class="ad-gate-box">
+    <div class="ad-gate-head">
+      <div class="ad-gate-eyebrow">One quick step</div>
+      <div class="ad-gate-title">Watch a short ad to generate your invitation</div>
+      <p class="ad-gate-sub">This keeps ShaadiWords free for everyone. Your wording unlocks automatically once the ad finishes.</p>
+    </div>
+
+    <div class="ad-slot" id="adSlotInner">
+      <!--
+        AdSense plug-in point.
+        Once your AdSense account is approved, replace this placeholder div
+        with the <ins class="adsbygoogle">...</ins> snippet from your
+        AdSense dashboard, plus the matching (adsbygoogle = window.adsbygoogle
+        || []).push({}); call. Everything else on this gate keeps working as-is.
+      -->
+      <div class="ad-slot-placeholder">
+        <div class="ad-slot-badge">AD</div>
+        <p>Advertisement space</p>
+        <p class="ad-slot-note">(Live ads appear here once AdSense is connected)</p>
+      </div>
+    </div>
+
+    <div class="ad-gate-footer">
+      <div class="ad-countdown-wrap">
+        <span class="ad-countdown-num" id="adCountdown">15</span>
+        <span class="ad-countdown-label">seconds</span>
+      </div>
+      <button class="ad-continue-btn" id="adContinueBtn" disabled>Please wait...</button>
+    </div>
+    <button class="ad-close-btn" id="adSkipClose" title="Cancel">&times;</button>
+  </div>
+</div>
+
+<footer>
+  ShaadiWords &middot; crafted for Indian weddings<br>
+  <a href="/about.html" style="color:inherit;">About</a> &middot;
+  <a href="/contact.html" style="color:inherit;">Contact</a> &middot;
+  <a href="/privacy.html" style="color:inherit;">Privacy Policy</a> &middot;
+  <a href="/blog/" style="color:inherit;">Guides</a>
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
@@ -870,18 +962,70 @@ document.getElementById('copyIg').addEventListener('click', () => {
   setTimeout(()=>{btn.textContent='Copy';}, 1600);
 });
 
-genBtn.addEventListener('click', async () => {
+genBtn.addEventListener('click', () => {
+  const names = document.getElementById('names').value.trim();
+  if(!names){
+    alert("Please enter the couple's names first.");
+    return;
+  }
+  showAdGate();
+});
+
+// ================= AD GATE =================
+// Regular AdSense doesn't support true "rewarded video" — that needs Google Ad
+// Manager, which requires an approved account with real traffic history.
+// This gate is the plug-in point: once AdSense is approved, replace the
+// placeholder inside #adSlotInner with the real <ins class="adsbygoogle">...
+// snippet from your AdSense dashboard. The countdown/gate logic stays the same.
+const AD_WATCH_SECONDS = 15;
+let adCountdownTimer = null;
+
+function showAdGate(){
+  const overlay = document.getElementById('adGateOverlay');
+  const continueBtn = document.getElementById('adContinueBtn');
+  const countEl = document.getElementById('adCountdown');
+  let remaining = AD_WATCH_SECONDS;
+
+  overlay.classList.add('show');
+  continueBtn.disabled = true;
+  countEl.textContent = remaining;
+
+  clearInterval(adCountdownTimer);
+  adCountdownTimer = setInterval(() => {
+    remaining -= 1;
+    if(remaining <= 0){
+      clearInterval(adCountdownTimer);
+      countEl.textContent = '0';
+      continueBtn.disabled = false;
+      continueBtn.textContent = 'Continue to Your Invitation';
+    } else {
+      countEl.textContent = remaining;
+    }
+  }, 1000);
+}
+
+function closeAdGate(){
+  document.getElementById('adGateOverlay').classList.remove('show');
+  clearInterval(adCountdownTimer);
+}
+
+document.getElementById('adContinueBtn').addEventListener('click', () => {
+  if(document.getElementById('adContinueBtn').disabled) return;
+  closeAdGate();
+  runGeneration();
+});
+
+document.getElementById('adSkipClose').addEventListener('click', () => {
+  closeAdGate();
+});
+
+async function runGeneration(){
   const names = document.getElementById('names').value.trim();
   const event = document.getElementById('event').value;
   const tone = document.getElementById('tone').value;
   const lang = document.getElementById('lang').value;
   const date = document.getElementById('date').value.trim();
   const details = document.getElementById('details').value.trim();
-
-  if(!names){
-    alert("Please enter the couple's names first.");
-    return;
-  }
 
   genBtn.disabled = true;
   genBtn.textContent = 'Writing...';
@@ -915,7 +1059,7 @@ genBtn.addEventListener('click', async () => {
     genBtn.disabled = false;
     genBtn.textContent = 'Generate Wording';
   }
-});
+}
 </script>
 
 </body>
